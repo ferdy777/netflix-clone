@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"); */
+
+body {
+  background-color: #000000;
+  font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  width: 80%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* index.css or globals.css */
+button {
+  cursor: pointer;
+}
