@@ -39,13 +39,25 @@ const Main = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(requests.requestPopular);
-        setMovies(response.data.results);
+        const fetchedMovies = response.data.results;
+
+        if (width < 640) {
+          const shuffled = [...fetchedMovies].sort(() => 0.5 - Math.random());
+          const randomFive = shuffled.slice(0, 5);
+          setMovies(randomFive);
+          const randomIndex = Math.floor(Math.random() * randomFive.length);
+          setCurrentIndex(randomIndex);
+        } else {
+          setMovies(fetchedMovies);
+          const randomIndex = Math.floor(Math.random() * fetchedMovies.length);
+          setCurrentIndex(randomIndex);
+        }
       } catch (error) {
         console.error("Failed to fetch movies:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [width]);
 
   useEffect(() => {
     if (movies.length === 0 || isPaused) return;
@@ -149,20 +161,20 @@ const Main = () => {
           </h1>
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-2 sm:gap-4 mb-1 sm:mb-3">
+          <div className="flex flex-col items-center justify-center sm:flex-row gap-2 sm:gap-4 mb-1 sm:mb-3 w-full max-w-[90%] sm:max-w-none">
             <button
               onClick={playMovie}
-              className="bg-red-600 text-white px-2 sm:px-5 sm:py-2 rounded-full flex items-center gap-2 text-xs sm:text-base hover:bg-red-700 transition"
+              className="bg-red-600 text-white px-16 sm:px-5 sm:py-2 py-2 rounded-full flex items-center justify-center gap-2 text-xs sm:text-base hover:bg-red-700 transition w-full sm:w-auto"
             >
               <FaPlay />
               Play
             </button>
             <button
               onClick={saveForLater}
-              className="bg-white text-black px-2 sm:px-5 sm:py-2 rounded-full flex items-center gap-2 text-xs sm:text-base hover:bg-gray-300 transition"
+              className="bg-white text-black text-nowrap px-28  sm:px-5 sm:py-2 py-2 rounded-full flex items-center justify-center gap-2 text-xs sm:text-base hover:bg-gray-300 transition w-full sm:w-auto"
             >
               <FaRegClock />
-              Watch Later
+              <span>Watch Later</span>
             </button>
           </div>
 
